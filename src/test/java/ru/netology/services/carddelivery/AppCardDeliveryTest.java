@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.time.LocalDate;
 
@@ -17,6 +18,11 @@ public class AppCardDeliveryTest {
 
     @BeforeEach
     void setUp() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--headless");
+
         open("http://localhost:9999/");
         $(By.cssSelector("[data-test-id = 'date'] input")).sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME));
         $(By.cssSelector("[data-test-id = 'date'] input")).sendKeys(Keys.DELETE);
