@@ -93,7 +93,7 @@ public class AppCardDeliveryTest {
         $("[data-test-id='date'] button").click();
         $(byText(day)).click();
 
-        String expected = "18.10.2022";
+        String expected = generateDate(7);
         String actual = $("[data-test-id = 'date'] input").getValue();
         Assertions.assertEquals(expected, actual);
     }
