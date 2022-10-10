@@ -1,14 +1,11 @@
 package ru.netology.services.carddelivery;
 
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.time.LocalDate;
 
@@ -36,6 +33,16 @@ public class AppCardDeliveryTest {
         return LocalDate.now().plusDays(days).format(ofPattern("dd.MM.yyyy"));
     }
 
+    /** Проверяет, что форма отправляется и показывает правильный текст после отправки, если все поля заполнены правильно (согласно требования)
+     *
+     * Требования:
+     * Город — один из административных центров субъектов РФ.
+     * Дата — не ранее трёх дней с текущей даты.
+     * В поле фамилии и имени разрешены только русские буквы, дефисы и пробелы.
+     * В поле телефона — только 11 цифр, символ + на первом месте.
+     * Флажок согласия должен быть выставлен.
+     */
+
     @Test
     void shouldBookSuccessfullyIfAllFieldsAreOk() {
         $("[data-test-id = 'city'] input").setValue("Майкоп");
@@ -44,6 +51,6 @@ public class AppCardDeliveryTest {
         $("[data-test-id = 'phone'] input").setValue("+79060483535");
         $("[data-test-id = 'agreement'] span").click();
         $("[type='button'].button").click();
-        $("[data-test-id = 'notification'] .notification__content").shouldHave(text("Встреча успешно забронирована на"), ofSeconds(15));
+        $("[data-test-id = 'notification'] .notification__content").shouldHave(text("Встреча успешно забронирована на " + generateDate(3)), ofSeconds(15));
     }
 }
